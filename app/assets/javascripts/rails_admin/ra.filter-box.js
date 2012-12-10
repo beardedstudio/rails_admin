@@ -85,6 +85,11 @@
           '<input placeholder="-∞" class="additional-fieldset between input-small" style="display:' + ((field_operator == "between") ? 'inline-block' : 'none') + ';" type="integer" name="' + value_name + '[]" value="' + (field_value[1] || '') + '" /> ' + 
           '<input placeholder="∞" class="additional-fieldset between input-small" style="display:' + ((field_operator == "between") ? 'inline-block' : 'none') + ';" type="integer" name="' + value_name + '[]" value="' + (field_value[2] || '') + '" />';
           break;
+        case 'scope':
+          var control = '<select class="input-small" value="' + field_value + '" name="' + value_name + '" data-name="' + value_name + '">' + 
+            field_options + 
+            '</select>';
+          break;
         default:
           var control = '<input type="text" class="input-small" name="' + value_name + '" value="' + field_value + '"/> ';
           break;

@@ -129,6 +129,18 @@ module RailsAdmin
 
     def get_collection(model_config, scope, pagination)
       associations = model_config.list.fields.select {|f| f.type == :belongs_to_association && !f.polymorphic? }.map {|f| f.association[:name] }
+
+      scopes = model_config.list.fields.select {|f| f.type == :scope }
+
+      if params[:f].present? && scopes.present?
+        scopes.each do |field|
+          scope_data = params[:f][field.name.to_s] || {}
+          scope_data.each do |key, value|
+            scope = scope.send field.name, *field.scope_arguments.call(value)
+          end
+        end
+      end
+
       options = {}
       options = options.merge(:page => (params[:page] || 1).to_i, :per => (params[:per] || model_config.list.items_per_page)) if pagination
       options = options.merge(:include => associations) unless associations.blank?
