@@ -29,7 +29,13 @@ module RailsAdmin
           end
 
           register_instance_option :enum do
-            bindings[:object].class.respond_to?(enum_method) ? bindings[:object].class.send(enum_method) : bindings[:object].send(enum_method)
+            if bindings[:object].class.respond_to?(enum_method)
+              bindings[:object].class.send(enum_method)
+            elsif bindings[:object].respond_to?(enum_method)
+              bindings[:object].send(enum_method)
+            else
+              []
+            end
           end
 
           register_instance_option :scope_arguments do

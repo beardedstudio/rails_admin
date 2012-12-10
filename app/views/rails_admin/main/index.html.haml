@@ -49,7 +49,7 @@
       field_type = field.use_input.to_s unless field.use_input.blank?
     end
     %{
-      $.filters.append(#{field.label.to_json}, #{field.name.to_json}, #{field.type.to_json}, #{filter_hash['v'].to_json}, #{filter_hash['o'].to_json}, #{field_options.to_json}, #{filter_index.to_json});
+      $.filters.append(#{field.label.to_json}, #{field.name.to_json}, #{field_type.to_json}, #{filter_hash['v'].to_json}, #{filter_hash['o'].to_json}, #{field_options.to_json}, #{filter_index.to_json});
     }
   end.join.html_safe if @ordered_filters
 
@@ -68,11 +68,12 @@
             - options_for_select(field.with(:object => @abstract_model.model.new).enum)
           - else
             - ''
+          - field_type = field.type
           - if field.type.to_s == 'scope'
             - field_type = 'default' if field_options.blank?
             - field_type = field.use_input.to_s unless field.use_input.blank?          
           %li
-            %a{:href => '#', :"data-field-label" => field.label, :"data-field-name" => field.name, :"data-field-options" => field_options.html_safe, :"data-field-type" => field.type, :"data-field-value" => ""}= field.label
+            %a{:href => '#', :"data-field-label" => field.label, :"data-field-name" => field.name, :"data-field-options" => field_options.html_safe, :"data-field-type" => field_type, :"data-field-value" => ""}= field.label
 
 #list
   %script
